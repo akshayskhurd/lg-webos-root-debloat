@@ -20,6 +20,25 @@ This guide helps you:
 
 ---
 
+## 🔬 How the Rooting Method Works (`faultmanager-autoroot`)
+
+This guide uses the **`faultmanager-autoroot`** method (developed by **throwaway96**, leveraging a privilege escalation vulnerability discovered by security researcher **buglloc** / Andrew Krasichkov):
+
+1. **Initial Access via Developer Mode**:
+   - LG's official Developer Mode provides restricted, unprivileged SSH access as the `prisoner` user on port `9922` (which normally expires after ~50 hours).
+2. **Privilege Escalation via `faultmanager`**:
+   - The webOS crash handler daemon (`/usr/sbin/faultmanager`) runs as `uid=0` (root).
+   - When a crash occurs, the Linux kernel invokes `faultmanager` to process the core dump. A vulnerability in `faultmanager` allows an unprivileged process to inject arbitrary commands and execute shell payloads with root privileges.
+   - `autoroot.sh` triggers a controlled crash with an embedded command payload to bootstrap root execution.
+3. **Homebrew Channel Installation & Elevation**:
+   - With root execution triggered, `autoroot.sh` installs the webOS Homebrew Channel package (`hbchannel.ipk`) and calls its internal `elevate-service` script to grant its service persistent root capabilities.
+4. **Boot-Chain Persistence (No 50-Hour Expiration)**:
+   - The exploit converts `/var/luna/preferences/devmode_enabled` into a directory, signaling webOS to initialize Developer Mode at startup.
+   - At every TV boot, the firmware signature-verifies and executes `/media/cryptofs/apps/usr/palm/services/com.palmdts.devmode.service/start-devmode.sh`.
+   - This mounts `/media/developer` (where Homebrew Channel resides). Homebrew Channel then runs `/var/lib/webosbrew/startup.sh` at boot, providing a persistent root shell (SSH/Telnet) without requiring the Dev Mode app or dealing with 50-hour session timers.
+
+---
+
 ## 📋 Prerequisites
 
 1. **LG Smart TV** connected to your local network (Wi-Fi or Ethernet).
