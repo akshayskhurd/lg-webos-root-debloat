@@ -1,0 +1,24 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Node dependencies
+node_modules/
+package-lock.json
+
+# TV pairing keys & network identities (CRITICAL: Do not commit)
+*.key.json
+*.mac
+.lg-client-key.json
+lg-client-key.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs and runtime states
+*.log
+*.orig
+*.state
+*.ipk

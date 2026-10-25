@@ -1,0 +1,23 @@
+{
+  "name": "lg-webos-root-debloat",
+  "version": "1.0.0",
+  "description": "Root and debloat toolkit for LG webOS TVs",
+  "main": "lg-connect.js",
+  "scripts": {
+    "connect": "node lg-connect.js",
+    "bench": "node lg-bench.js",
+    "sweep": "node lg-sweep.js"
+  },
+  "keywords": [
+    "lg",
+    "webos",
+    "root",
+    "debloat",
+    "homebrew"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lgtv2": "^2.1.0"
+  }
+}
